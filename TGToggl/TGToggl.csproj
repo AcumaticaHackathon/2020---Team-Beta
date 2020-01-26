@@ -73,6 +73,7 @@
     <Compile Include="Extension\Graph\TGTimeCardMaintExtension.cs" />
     <Compile Include="Graph\TGTogglWebhookProc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\GPSTracker.cs" />
     <Compile Include="Utility\HtmlActionResult.cs" />
     <Compile Include="Utility\RequestParser.cs" />
     <Compile Include="Utility\TogglClient.cs" />

@@ -36,25 +36,26 @@ namespace TGToggl
 
         private void InvokeMethod(string method)
         {
-            StartTimer();
-            //switch (method)
-            //{
-            //case "StartTimer":
-            //    return InvokeStartTimer(queryParameters);
-            //case "GPSTracker":
-            //    return InvokeGPSTracker(queryParameters);
-            //case "ClockOut":
-            //    return InvokeClockOut(queryParameters);
-            //case "CreateProject":
-            //    return InvokeCreateProject(queryParameters);
-            //case "NFCScan":
-            //    return InvokeAutomatedIDScan(queryParameters);
-            //case "StartTimerFromImage":
-            //    return InvokeStartTimerFromImage(queryParameters, request);
-            //default:
-            //throw new Exception($"Method {method} was not recognized");
+            switch (method)
+            {
+                case "StartTimer":
+                    ClockIn();
+                    break;
+                case "ClockOut":
+                    ClockOut();
+                    break;
+                case "GPSTracker":
+                    TrackGPS();
+                    break;
+                //    return InvokeCreateProject(queryParameters);
+                //case "NFCScan":
+                //    return InvokeAutomatedIDScan(queryParameters);
+                //case "StartTimerFromImage":
+                //    return InvokeStartTimerFromImage(queryParameters, request);
+                default:
+                    throw new Exception($"Method {method} was not recognized");
 
-            //}
+            }
         }
 
         private string RetrieveMethod()
@@ -100,7 +101,7 @@ namespace TGToggl
             return description;
         }
 
-        private List<string> RetrieveTags()
+        private string RetrieveTags()
         {
             const string cTags = "Tags";
             string tags = string.Empty;
@@ -112,15 +113,50 @@ namespace TGToggl
                 //todo: implement any Tag functions deemed necessary. Im not seeing this a a critical item and would qualify as bonus.
                 tags = _queryParameters[cTags];
             }
-            return tags.Split(',').ToList(); ;
+            return tags;//.Split(',').ToList(); ;
         }
 
-        private void StartTimer()
-        {  
+        private void ClockIn()
+        {
             using (TogglClient client = new TogglClient(RetrieveAPIKey()))
             {
-                client.StartTimer(RetrieveProject(), RetrieveDescription(), RetrieveTags()); 
+                client.StartTimer(RetrieveProject(), RetrieveDescription(), RetrieveTags());
             }
+        }
+
+        private void ClockOut()
+        {
+            using (TogglClient client = new TogglClient(RetrieveAPIKey()))
+            {
+                client.StopTimer();
+            }
+        }
+
+        private string RetrieveLat()
+        {
+            const string cLat = "Lat";
+            if (!_queryParameters.AllKeys.Contains(cLat)) throw new Exception($"The {cLat} Parameter was not specified in the Query String");
+            return _queryParameters[cLat];
+        }
+
+        private string RetrieveLon()
+        {
+            const string cLon = "Lon";
+            if (!_queryParameters.AllKeys.Contains(cLon)) throw new Exception($"The {cLon} Parameter was not specified in the Query String");
+            return _queryParameters[cLon];
+        }
+
+        private string RetrieveEmployee()
+        {
+            const string cEmployeeID = "EmployeeID";
+            if (!_queryParameters.AllKeys.Contains(cEmployeeID)) throw new Exception($"The {cEmployeeID} Parameter was not specified in the Query String");
+            return _queryParameters[cEmployeeID];
+        }
+
+        private void TrackGPS()
+        {
+            GPSTracker tracker = new GPSTracker();
+            tracker.TrackGPS(RetrieveEmployee(), RetrieveLat(), RetrieveLon());
         }
     }
 }
