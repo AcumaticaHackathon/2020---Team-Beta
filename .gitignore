@@ -1,0 +1,14 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/TemporaryAspFiles/Toggl_19_205_0023/root/d1c98cb4/3affc383
+/.vs
+/Toggl_19_205_0023
+/TemporaryAspFiles/Toggl_19_205_0023/toggl_19_205_0023/23eddfb2/93d857df
+/TGToggl/obj/Debug
+/Toggl_20_092_0043
+/TGToggl/bin/Debug
+/Customization/Toggl_20_092_0043/Toggl_20_092_0043Validation/Toggl_20_092_0043Website
+/packages
+/TemporaryAspFiles/Toggl_20_092_0043
